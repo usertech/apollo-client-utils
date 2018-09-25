@@ -3,21 +3,17 @@ import { SchemaLink } from 'apollo-link-schema';
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 
 const createMockLink = ({
-	typeDefs,
-	resolvers,
-	mocks,
 	defaultOperationDelay = 500,
-	immediateOperations = {},
 	operationsDelays = {
 		IntrospectionFragmentMatcherQuery: 1200,
 	},
+	mocks,
+	preserveResolvers,
+	...makeExecutableSchemaParams
 }) => {
 	// mock link
-	const schema = makeExecutableSchema({
-		typeDefs,
-		resolvers,
-	});
-	addMockFunctionsToSchema({ schema, mocks });
+	const schema = makeExecutableSchema(makeExecutableSchemaParams);
+	addMockFunctionsToSchema({ schema, mocks, preserveResolvers });
 	const mockLink = new SchemaLink({
 		schema,
 		context: ({ getContext }) => getContext(),
@@ -26,10 +22,9 @@ const createMockLink = ({
 	// delay link
 	const delayLink = new ApolloLink((operation, forward) => {
 		const { operationName } = operation;
-		const isOperationImmediate = immediateOperations[operationName];
 		const presetOperationDelay = operationsDelays[operationName];
 		const operationDelay =
-			presetOperationDelay || (isOperationImmediate ? 0 : defaultOperationDelay);
+			typeof presetOperationDelay !== 'undefined' ? presetOperationDelay : defaultOperationDelay;
 		return new Observable((observer) => {
 			let handle;
 			// eslint-disable-next-line
