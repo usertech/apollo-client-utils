@@ -1,23 +1,12 @@
 import { execute, makePromise } from 'apollo-link';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 
-const introspectionQuery = gql`
-	query IntrospectionFragmentMatcherQuery {
-		__schema {
-			types {
-				kind
-				name
-				possibleTypes {
-					name
-				}
-			}
-		}
-	}
-`;
+import IntrospectionFragmentMatcherQuery from './IntrospectionFragmentMatcherQuery.gql';
 
 const createIntrospectionFragmentMatcher = async ({ link }) => {
-	const introspectionQueryResult = await makePromise(execute(link, { query: introspectionQuery }));
+	const introspectionQueryResult = await makePromise(
+		execute(link, { query: IntrospectionFragmentMatcherQuery }),
+	);
 	const introspectionQueryResultData = {
 		__schema: {
 			types: introspectionQueryResult.data.__schema.types.filter(

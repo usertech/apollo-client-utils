@@ -1,6 +1,6 @@
 {
   "name": "@usertech/apollo-client-utils",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
+    "graphql-tag": "^2.9.2",
     "neutrino": "^8.3.0",
     "prettier": "^1.14.2"
   },
@@ -30,7 +31,6 @@
     "apollo-link": "^1.2.3",
     "apollo-link-schema": "^1.1.1",
     "graphql": "^14.0.2",
-    "graphql-tag": "^2.9.2",
     "graphql-tools": "^4.0.0"
   }
 }
