@@ -8,7 +8,7 @@ const createMockLink = ({
 		IntrospectionFragmentMatcherQuery: 1200,
 	},
 	mocks,
-	preserveResolvers,
+	preserveResolvers = true,
 	...makeExecutableSchemaParams
 }) => {
 	// mock link
